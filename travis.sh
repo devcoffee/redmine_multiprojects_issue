@@ -28,14 +28,19 @@ export REDMINE_GIT_TAG=$REDMINE_VER
 export BUNDLE_GEMFILE=$PATH_TO_REDMINE/Gemfile
 
 # checkout redmine
-if [ "$REDMINE_GIT_TAG" == "master" ];
+git clone $REDMINE_GIT_REPO $PATH_TO_REDMINE
+cd $PATH_TO_REDMINE
+if [ ! "$REDMINE_GIT_TAG" = "master" ];
 then
-  git clone $REDMINE_GIT_REPO $PATH_TO_REDMINE
-else
-  git clone $REDMINE_GIT_REPO --branch=$REDMINE_GIT_TAG $PATH_TO_REDMINE
+  git checkout -b $REDMINE_GIT_TAG origin/$REDMINE_GIT_TAG
 fi
 
-cd $PATH_TO_REDMINE
+# create a link to the backlogs plugin
+ln -sf $PATH_TO_PLUGIN plugins/$NAME_OF_PLUGIN
+
+# Add other plugins dependencies
+git clone https://github.com/jbbarth/redmine_base_deface.git plugins/redmine_base_deface
+git clone https://github.com/nanego/redmine_base_stimulusjs.git plugins/redmine_base_stimulusjs
 
 # Temporary fix for issue #32785 X-Sendfile header field is not set if rack 2.1.0 is installed
 # TODO => Remove this when Redmine 4.1.1 is released

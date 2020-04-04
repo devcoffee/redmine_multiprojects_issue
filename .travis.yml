@@ -3,7 +3,8 @@ sudo: false
 language: ruby
 
 rvm:
-  - 2.6
+  - 2.6.5
+
 
 branches:
   only:
@@ -11,6 +12,8 @@ branches:
 
 env:
   global:
+    - REDMINE_VER=4.0-stable
+    - REDMINE_VER=master
     - MAGICK_CONFIGURE_PATH=$HOME/.config/ImageMagick
   jobs:
     - REDMINE_VER=master
