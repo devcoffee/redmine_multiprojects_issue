@@ -41,10 +41,12 @@ class IssuesController < ApplicationController
       @projects_before_change = @issue.projects
       # projects removed
       @current_journal.details << JournalDetail.new(:property => 'projects',
+                                                    :prop_key => 'project_id',
                                                     :old_value => (@projects_before_change - @projects).reject(&:blank?).join(","),
                                                     :value => nil) if (@projects_before_change - @projects - [@issue.project]).present?
       # projects added
       @current_journal.details << JournalDetail.new(:property => 'projects',
+                                                    :prop_key => 'project_id',
                                                     :old_value => nil,
                                                     :value => (@projects - @projects_before_change).reject(&:blank?).join(","))  if (@projects - @projects_before_change - [@issue.project]).present?
     end
