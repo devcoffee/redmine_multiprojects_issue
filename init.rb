@@ -16,15 +16,14 @@ Redmine::Plugin.register :redmine_multiprojects_issue do
   name 'Redmine Multiple Projects per Issue plugin'
   author 'Vincent ROBERT'
   description 'This plugin for Redmine allows more than one project per issue.'
-  version '4.0.0'
+  version '4.1.0'
   url 'https://github.com/nanego/redmine_multiprojects_issue'
   author_url 'mailto:contact@vincent-robert.com'
-  requires_redmine_plugin :redmine_base_deface, :version_or_higher => '0.0.1'
   requires_redmine_plugin :redmine_base_stimulusjs, :version_or_higher => '1.0.1'
   settings :default => { 'custom_fields' => []},
            :partial => 'settings/redmine_plugin_multiprojects_issue_settings'
 
-  activity_provider :issues_from_current_project_only, :class_name => ['Issue', 'Journal']
+  activity_provider :issues_from_current_project_only, :class_name => ['Issue', 'Journal'] unless Rails.env.test?
   permission :view_issues_from_current_project_only, {}, :public => false, :read => true
   project_module :issue_tracking do
     permission :link_other_projects_to_issue, {}, :require => :member
